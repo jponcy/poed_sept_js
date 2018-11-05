@@ -1,0 +1,74 @@
+body {
+    margin-bottom: 300px;
+    background-color: beige;
+}
+
+h1 {
+    font-size: 3em;
+    margin: auto;
+    text-decoration: underline;
+    color: blue;
+}
+
+h2 {
+    color: cadetblue;
+    font-style: italic;
+}
+
+.twoC, .two-columns {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+.twoC > div, .two-columns > * {
+    flex: 30%;
+    margin: 0;
+    padding: 0;
+}
+
+pre {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+pre > code + code {
+    padding-left: 30px;
+    border-left: 1px dotted blue;
+}
+
+code {
+    margin: 0 30px;
+    /* width: 50%; */
+}
+
+pre.left {
+    display: block;
+}
+
+
+dl {
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  color: navy;
+}
+dt {
+  float: left;
+  width: 20%;
+  padding: 0;
+  margin: 0;
+}
+dd {
+  float: left;
+  width: 80%;
+  /* adjust the width; make sure the total of both is 100% */
+  padding: 0;
+  margin: 0;
+  font-style: italic;
+    color: lighter;
+}

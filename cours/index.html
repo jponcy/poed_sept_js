@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cours JS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
+<body>
+    <h1>Bases</h1>
+    <h2>IDE</h2>
+
+    <p>N'importe lequel sachant prendre en charge. Je conseil plutôt visual studio code, atom ou sublim text</p>
+
+    <h2>Quelques points importants</h2>
+
+    JS est un langage:
+    <ul>
+        <li>de script</li>
+        <li>interprété</li>
+        <li>utilisé de base côté client</li>
+        <li>ppeut-être utilisé côté serveur (node JS)</li>
+        <li>en général utilisé pour le WEB</li>
+        <li>non typé (statiquement)</li>
+        <li>très répandu</li>
+        <li><strong>JS != Script en Java</strong></li>
+    </ul>
+
+
+    <h1>Les bases procédurales (es5)</h1>
+
+    <h2>Les types</h2>
+
+    <ul>
+        <li>entier (3)</li>
+        <li>réel (3.0)</li>
+        <li>string ('3.0')</li>
+        <li>booléen (true)</li>
+        <li>octet (0b11)</li>
+        <li>objet {value: 3}</li>
+        <li>tableau [3]</li>
+        <li>undefined</li>
+        <li>null</li>
+    </ul>
+
+    <h2>Plus sur les string</h2>
+
+    Les trois déclarations suivantes sont (non strictement) équivalente:
+    <dl>
+        <dt>string ('3.0')</dt>
+        <dd>Déclaration conseillé si aucun besoin spécifique (interpolation, ...)</dd>
+
+        <dt>string ("3.0")</dt>
+        <dd>Comprend certain caractères spéciaux (\n, \t, ...)</dd>
+
+        <dt>string (`3.0`)</dt>
+        <dd>Templating (plutôt es6 ; comprend le multiligne, ...)</dd>
+    </dl>
+
+    La concaténation en JS : +.
+
+    <h2>Les variables</h2>
+
+    Déclaration statique (facultatif mais conseillé):
+    <code class="html">
+        <pre>
+            var maVariable;
+        </pre>
+    </code>
+
+    <h2>Les commentaires</h2>
+
+    <pre>
+        <code class="html">
+            // Simple ligne.
+            /*
+             * Multi-ligne
+             * :D
+             */
+            /** ~JS ... */
+        </code>
+    </pre>
+
+    <h2>Opérateurs</h2>
+
+    <h3>Mathématiques</h3>
+
+    <dl>
+        <dt>+</dt>
+        <dd>addition</dd>
+
+        <dt>-</dt>
+        <dd>soustraction</dd>
+
+        <dt>/</dt>
+        <dd>division</dd>
+
+        <dt>%</dt>
+        <dd>modulo</dd>
+
+        <dt>**</dt>
+        <dd>puissance</dd>
+
+        <dt>++</dt>
+        <dd>incrémentation</dd>
+
+        <dt>--</dt>
+        <dd>décrémentation</dd>
+    </dl>
+
+    <h3>Binaires</h3>
+
+    <dl>
+        <dt>|</dt>
+        <dd>OU</dd>
+
+        <dt>&</dt>
+        <dd>ET</dd>
+
+        <dt>^</dt>
+        <dd>OU exclusif (XOR ; (a & !b) || (!a & b))</dd>
+
+        <dt>!</dt>
+        <dd>NOT</dd>
+    </dl>
+
+    Les tables
+    values  => | & ^
+    0 0     => 0 0 0
+    0 1     => 1 0 1
+    1 0     => 1 0 1
+    1 1     => 1 1 0
+
+    <h3>Logiques</h3>
+
+    Proches des binaires.
+
+    <dl>
+        <dt>||</dt>
+        <dd>OU</dd>
+
+        <dt>&&</dt>
+        <dd>ET</dd>
+
+        <dt>^</dt>
+        <dd>OU exclusif (XOR)</dd>
+
+        <dt>!</dt>
+        <dd>NOT</dd>
+    </dl>
+
+    <h3>Comparaison</h3>
+    <dl>
+        <dt>==</dt>
+        <dd>égal</dd>
+
+        <dt>!=</dt>
+        <dd>différents</dd>
+
+        <dt>&lt;</dt>
+        <dd>inférieur</dd>
+
+        <dt>&gt;</dt>
+        <dd>supérieur</dd>
+
+        <dt>&lt;=</dt>
+        <dd>inférieur ou égal</dd>
+
+        <dt>&gt;=</dt>
+        <dd>supérieur ou égal</dd>
+
+        <dt>===</dt>
+        <dd>égal strictement</dd>
+
+        <dt>!==</dt>
+        <dd>OU strictement</dd>
+    </dl>
+
+    <pre>
+        <code class="html">
+            $ 1 === true
+            : false
+            $ '3' == "3"
+            : true
+            $ '3' === "3"
+            : true
+            $ '3' === 3
+            : false
+        </code>
+    </pre>
+
+    <h3>Falsable et jeu sur opérateurs</h3>
+
+    false, null, undefined, 0, '' => estimable comme false.
+
+    false || null || 3 => 3
+    false || null || 3 || 4 => 3
+    false || null || [] || 3 || 4 => []
+
+
+    <h2>Conditions</h2>
+
+    <ul>
+        <li>if (if (false) 'toto'; else 'titi')</li>
+        <li>switch (switch(true) { case false: 'toto'; break; default: 'titi'; }</li>
+        <li>ternaire (false ? 'toto' : 'titi')</li>
+    </ul>
+
+
+    <h2>Quelques fonction utiles</h2>
+
+    console.log(), console.error(), ... => logs
+    alert('msg') => (NE PAS EN ABUSER) affiche une popup avec le texte en paramètre
+    prompt('question'[, 'valeur par défaut']) => (NE PAS EN ABUSER) fenêtre de saisie
+    (NE PAS EN ABUSER) => c'est moche et intrusif
+
+
+    <h2>Pendu v1</h2>
+
+    <ol>
+        <li>Créer un nouveau script qui va <ul>
+            <li>initialiser une variable string contenant 'mystere'</li>
+            <li>demander à l'utilisateur de saisir un mot (et le lire)</li>
+            <li>dit à l'utilisateur s'il a trouvé le bon mot</li>
+        </ul></li>
+        <li>Le devra devra maintenant être choisi aléatoirement à partir d'un tableau contenant plusieurs mots</li>
+    </ol>
+
+    <pre>
+        <code class="js">
+// Correction Q1.
+var mys = 'mystere';
+var input = prompt('What is your proposition?');
+alert('That\'s ' + (mys == input ? '' : 'not ') + 'this word');
+
+// Correction Q2.
+var t = ['salut', 'mystere', 'portable'];
+var mys = t[Math.floor(Math.random() * t.length)];
+console.log('Le mot à trouver est ' + mys);
+var input = prompt('What is your proposition?');
+alert('That\'s ' + (mys == input ? '' : 'not ') + 'this word');
+        </code>
+    </pre>
+
+    <h2>Les boucles</h2>
+
+    <h3>Classiques</h3>
+
+    <pre>
+        <code class="js">
+// While.
+var i = 0;
+
+while (i < 4) {
+    console.log(i ** i);
+    i ++;
+}
+
+
+// Do-while.
+i = 0;
+
+do {
+    console.log(i ** i);
+    i ++;
+} (i < 4);
+
+
+// For i.
+for (var i = 0; i < 3; ++ i) {
+    console.log(i ** i);
+}
+</code>
+
+<code class="js">
+// For in.
+var t = ['un', 'deux', 'trois'];
+
+for (var i in t) { // Return array indexes (0, 1, 2).
+    console.log(i ** i);
+}
+
+// Equivalent to
+for (var i = 0; i < t.length; ++ i) {
+    console.log(i ** i);
+}
+
+
+// For of.
+var t = ['un', 'deux', 'trois'];
+
+for (var elt of t) {
+    console.log(elt);
+}
+
+// While without body.
+var i = 0;
+while (i ++ < 4);
+console.log(i);
+
+// Most stupid for.
+for (;;) { console.log(i); break; }
+
+// For with vars.
+for (var i = 0, j = 0; i < 42; i ++, j = i ** i) { console.log(j); }
+        </code>
+    </pre>
+
+    <h3>Pendu v2</h3>
+
+    <p>
+        Consigne : l'utilisateur a maintenant autant de chances que nécessaire pour trouver le mot.
+    </p>
+
+    <p>
+        Correction :
+        <pre>
+            <code class="javascript">
+var t = ['salut', 'mystere', 'portable'];
+var mys = t[Math.floor(Math.random() * t.length)]
+var unfound = true;
+
+// Cheat.
+console.log('Le mot à trouver est ' + mys);
+
+while (unfound) {
+    var input = prompt('What is your proposition?');
+    unfound = mys != input;
+
+    alert('That\'s ' + (unfound ? 'not ' : '') + 'this word');
+}
+
+alert('Congratulation');
+            </code>
+        </pre>
+    </p>
+
+    <h3>Pendu v3</h3>
+
+    <ol>
+        <li>Nous allons maintenant accorder 5 chances à l'utilisateur <ol>
+            <li>nous lui donnerons le compte de vies restantes avant chaque essai</li>
+            <li>nous lui annoncerons une défaite si son nombre de vie atteint 0</li>
+        </ol></li>
+
+        <li>Nous accepterons désormais deux types de saisies par l'utilisateur
+            <ol>
+                <li>des mots : si le mot n'est pas exactement le même que celui à trouver, on perd une vie (aucun indice ne supplémentaire foutnit)</li>
+                <li>une lettre : on affichera l'état du mot comme ceci "gigant__que_" avec un '_' par lettre manquante
+                    <ol>
+                        <li>si une lettre est en doublon, nous afficherons <em>toutes</em> les occurences de cette lettre une fois trouvé</li>
+                        <li>si toutes les lettres on étés trouvées, la victoire sera annoncé</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+
+        <li>les doublons saisies par l'utilisateur ne lui feront plus perdre de vie</li>
+
+        <li>avant chaque essai, nous rappellerons à l'utilisateur les mots et lettres qu'il a déjà proposé (les doublons ne seront pas affichés)</li>
+    </ol>
+
+    <p>
+        Correction :
+
+        <pre>
+            <code class="js">
+/* Q1. */
+var t = ['salut', 'mystere', 'portable'];
+var mys = t[Math.floor(Math.random() * t.length)]
+var unfound = true;
+
+// Cheat.
+console.log('Le mot à trouver est ' + mys);
+
+for (var lives = 5; lives > 0 && unfound; lives --) {
+    alert('Il vous reste ' + lives + ' vies');
+    var input = prompt('What is your proposition?');
+    unfound = mys != input;
+
+    alert('That\'s ' + (unfound ? 'not ' : '') + 'this word');
+}
+
+if (lives > 0) {
+    alert('Congratulation');
+} else {
+    alert('You died!');
+}
+            </code>
+
+            <code class="js">
+/* Q2. */
+var t = ['salut', 'mystere', 'portable'];
+var mys = t[Math.floor(Math.random() * t.length)]
+var unfound = true;
+var found = [];<!-- var found = [...Array(mys.length)].map(_ => '_'); -->
+
+// Initialize found.
+for (var i = 0; i < mys.length; ++ i) {
+    found[i] = '_';
+}
+
+// Cheat.
+console.log('Le mot à trouver est ' + mys);
+
+for (var lives = 5; lives > 0 && unfound; lives --) {
+    var msg = 'Il vous reste ' + lives + ' vies. Trouvé : ';
+    for (var c of found) {
+        msg += c;
+    }
+    alert(msg);
+
+    var input;
+
+    do {
+        input = prompt('What is your proposition?').trim();
+    } while (input.length === 0);
+
+    if (input.length == 1) {
+        var nbInputFound = 0;
+
+        for (var i = 0; i < mys.length; ++ i) {
+            if (mys.charAt(i) == input) {
+                found[i] = input;
+                ++ nbInputFound;
+            }
+        }
+
+        if (nbInputFound === 0) {
+            alert('Letter not found, you left a life!')
+        } else {
+            alert('Letter found.');
+            ++ lives;
+        }
+    } else {
+        unfound = mys != input;
+
+        alert('That\'s ' + (unfound ? 'not ' : '') + 'this word');
+    }
+}
+
+if (lives > 0) {
+    alert('Congratulation');
+} else {
+    alert('You died!');
+}
+            </code>
+
+            <code class="js">
+var badResponses = [];
+
+// [...]
+
+var msg = 'Il vous reste ' + lives + ' vies. Trouvé : ';
+
+for (var c of found) {
+    msg += c;
+}
+
+msg += '. Vous avez déjà échoué avec : ' + badResponses.join(', ');
+
+alert(msg);
+
+// [...]
+
+do {
+    input = prompt('What is your proposition?').trim();
+} while (input.length === 0 && !badResponses.contains(input));
+
+// [...]
+
+if (nbInputFound === 0) {
+    badResponses.push(input);
+} else {
+
+// [...]
+            </code>
+
+            <code class="js">
+
+// Rename badResponses to responses.
+
+// [...]
+
+- msg += '. Vous avez déjà échoué avec : ' + badResponses.join(', ');
++ msg += '. Vous avez déjà tenté : ' + badResponses.join(', ');
+
+// [...]
+
+- if (nbInputFound === 0) {
+-     badResponses.push(input);
+- } else {
+
+// [...]
+
+responses.push(input);
+
+if (input.length == 1) {
+
+// [...]
+            </code>
+        </pre>
+    </p>
+
+
+    <h2>Insérer son code dans une page HTML</h2>
+
+    Comme le CSS, vous avez deux façons d'inclure votre code JS:
+    <ul>
+        <li>à l'arache</li>
+        <li>correctement</li>
+    </ul>
+
+    <h3>&Agrave; l'arache</h3>
+
+    <pre>
+        <div class="js">
+<script>
+    console.log('Qu\'il est beau ce script très utile !!');
+</script>
+        </div>
+    </pre>
+
+    <h3>La façon à privilégier</h3>
+
+    La bonne façon consiste à séparer la définition des JS en dehors du fichier. Cela permet notemment :
+    <ul>
+        <li>la lisibilité</li>
+        <li>la réutilisation</li>
+        <li>vitesse de chargement</li>
+    </ul>
+
+    <pre>
+        <code class="js">
+<script src="<mon_fichier.js>"></script>
+        </code>
+    </pre>
+
+
+    <h2>DOM</h2>
+
+    Le DOM est "l'interpretation chargé en RAM" de la page HTML par le navigateur. Une fois chargé, c'est lui qui fait foie sur le contenu de la page HTML. Utiliser le DOM permet par exemple de :
+    <ul>
+        <li>suppprimer un élément</li>
+        <li>ajouter/supprimer des classes CSS appliquées sur l'élément</li>
+        <li>ajouter des éléments</li>
+        <li>bouger les élément (dans le DOM)</li>
+        <li>changer les valeurs (titre, label, ...)</li>
+    </ul>
+
+    <button id="usefulbtn" href="#">Rien</button>
+
+    <pre>
+        <code class="js">
+            // Remove item.
+            document.getElementById('usefulbtn').remove();
+        </code>
+    </pre>
+
+    <script src="highlighter.js"></script>
+    <script src="hidhlighter_process.js"></script>
+</body>
+</html>
