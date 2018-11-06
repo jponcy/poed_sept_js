@@ -6,6 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>TP Fact</title>
     <link rel="stylesheet" type="text/css" media="screen" href="../main.css" />
+
+    <style>
+        .mapped {
+            border: 1px solid silver;
+            border-radius: 20%;
+            background-color: black;
+            color: white;
+        }
+        .mapped:hover {
+            background-color: pink;
+            color: skyblue;
+        }
+    </style>
 </head>
 <body>
     <h1>Exercice de factoriel</h1>
@@ -13,6 +26,52 @@
     <h2>Création de la fonction</h2>
 
     <p>Le but de cet exercice est de développer de nombreuses versions du <a href="https://fr.wikipedia.org/wiki/Factorielle">factorielle</a> en JS ES5 (recursive, arrow function, ...).</p>
+
+    Correction :
+    <pre>
+        <code class="js">
+                function factIte(nb) {
+                    var result = 1;
+
+                    for (var i = nb; i > 0; -- i) {
+                        result *= i;
+                        // result = result * i;
+                    }
+
+                    return result;
+                }
+
+                function factRec(nb) {
+                    if (nb <= 1) {
+                        return 1;
+                    }
+
+                    return nb * factRec(nb - 1);
+                }
+
+                function factRecTern(nb) {
+                    return nb <= 1 ? 1 : factRec(nb - 1);
+                }
+
+                function factArrow1(nb) {
+                    var values = [];
+
+                    for (var i = 1; i <= nb; i ++) {
+                        values.push(i);
+                    }
+
+                    return values.reduce((acc, e) => acc * e);
+                }
+
+                function factLowdash(nb) {
+                    return _.range(1, nb).reduce((acc, e) => acc * e);
+                }
+
+                function factArrow2(nb) {
+                    return [...Array(nb)].map((_, i) => i + 1).reduce((acc, e) => acc * e);
+                }
+        </code>
+    </pre>
 
     <h2>UI popup</h2>
 
@@ -24,5 +83,42 @@
         </ol>
     </p>
 
+    Correction :
+    <pre>
+        <code class="html">
+            &#60;button>Algo n°1&#60;/button>
+            &#60;button>Algo n°2&#60;/button>
+            &#60;button>Algo n°3&#60;/button>
+            &#60;button>Algo n°4&#60;/button>
+            &#60;button>Algo n°5&#60;/button>
+            &#60;button>Algo n°6&#60;/button>
+        </code>
+        <code class="js">
+
+            // [..]
+            // script
+            function mapFact(elt, fn) {
+                console.debug('Call mapFact', {elt, fn});
+
+                elt.addEventListener('click', _ => {
+                    var n = parseInt(prompt('fact(n) avec n = ?'));
+                    var res = fn(n);
+
+                    alert(`fact(${n}) = ${res}`);
+                });
+
+                elt.className = 'mapped';
+            }
+
+            var buttons = document.querySelectorAll('button');
+            var fns = [factIte, factRec, factRecTern, factArrow1, factLowdash, factArrow2];
+
+            fns.forEach((fn, i) => mapFact(buttons[i % buttons.length], fn));
+            // /script
+        </code>
+    </pre>
+
+    <script src="../highlighter.js"></script>
+    <script src="../hidhlighter_process.js"></script>
 </body>
 </html>

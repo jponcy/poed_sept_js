@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+
+    <style>
+        .mapped {
+            border: 1px solid silver;
+            border-radius: 20%;
+            background-color: black;
+            color: white;
+        }
+        .mapped:hover {
+            background-color: pink;
+            color: skyblue;
+        }
+    </style>
+</head>
+<body>
+    <script>
+                    function factIte(nb) {
+                    var result = 1;
+
+                    for (var i = nb; i > 0; -- i) {
+                        result *= i;
+                        // result = result * i;
+                    }
+
+                    return result;
+                }
+
+                function factRec(nb) {
+                    if (nb <= 1) {
+                        return 1;
+                    }
+
+                    return nb * factRec(nb - 1);
+                }
+
+                function factRecTern(nb) {
+                    return nb <= 1 ? 1 : factRec(nb - 1);
+                }
+
+                function factArrow1(nb) {
+                    var values = [];
+
+                    for (var i = 1; i <= nb; i ++) {
+                        values.push(i);
+                    }
+
+                    return values.reduce((acc, e) => acc * e);
+                }
+
+                function factLowdash(nb) {
+                    return _.range(1, nb).reduce((acc, e) => acc * e);
+                }
+
+                function factArrow2(nb) {
+                    return [...Array(nb)].map((_, i) => i + 1).reduce((acc, e) => acc * e);
+                }
+                </script>
+
+
+
+
+
+
+
+
+    <button>Algo n°1</button>
+    <button>Algo n°2</button>
+    <button>Algo n°3</button>
+    <button>Algo n°4</button>
+    <button>Algo n°5</button>
+    <button>Algo n°6</button>
+
+
+    <script>
+        function mapFact(elt, fn) {
+            console.debug('Call mapFact', {elt, fn});
+
+            elt.addEventListener('click', _ => {
+                var n = parseInt(prompt('fact(n) avec n = ?'));
+                var res = fn(n);
+
+                alert(`fact(${n}) = ${res}`);
+            });
+
+            elt.className = 'mapped';
+        }
+
+        var buttons = document.querySelectorAll('button');
+        var fns = [factIte, factRec, factRecTern, factArrow1, factLowdash, factArrow2];
+
+        fns.forEach((fn, i) => mapFact(buttons[i % buttons.length], fn));
+
+    </script>
+</body>
+</html>
