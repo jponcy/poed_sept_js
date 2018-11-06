@@ -49,7 +49,7 @@ pre.left {
 }
 
 
-dl {
+/* dl {
   width: 100%;
   overflow: hidden;
   padding: 0;
@@ -66,9 +66,8 @@ dt {
 dd {
   float: left;
   width: 80%;
-  /* adjust the width; make sure the total of both is 100% */
   padding: 0;
   margin: 0;
   font-style: italic;
     color: lighter;
-}
+} */

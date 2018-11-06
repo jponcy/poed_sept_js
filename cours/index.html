@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 </head>
+
 <body>
     <h1>Bases</h1>
     <h2>IDE</h2>
@@ -126,11 +128,11 @@
     </dl>
 
     Les tables
-    values  => | & ^
-    0 0     => 0 0 0
-    0 1     => 1 0 1
-    1 0     => 1 0 1
-    1 1     => 1 1 0
+    values => | & ^
+    0   0  => 0 0 0
+    0   1  => 1 0 1
+    1   0  => 1 0 1
+    1   1  => 1 1 0
 
     <h3>Logiques</h3>
 
@@ -220,10 +222,11 @@
 
     <ol>
         <li>Créer un nouveau script qui va <ul>
-            <li>initialiser une variable string contenant 'mystere'</li>
-            <li>demander à l'utilisateur de saisir un mot (et le lire)</li>
-            <li>dit à l'utilisateur s'il a trouvé le bon mot</li>
-        </ul></li>
+                <li>initialiser une variable string contenant 'mystere'</li>
+                <li>demander à l'utilisateur de saisir un mot (et le lire)</li>
+                <li>dit à l'utilisateur s'il a trouvé le bon mot</li>
+            </ul>
+        </li>
         <li>Le devra devra maintenant être choisi aléatoirement à partir d'un tableau contenant plusieurs mots</li>
     </ol>
 
@@ -242,6 +245,47 @@ var input = prompt('What is your proposition?');
 alert('That\'s ' + (mys == input ? '' : 'not ') + 'this word');
         </code>
     </pre>
+
+    <h2>Déclarer nos propres fonction</h2>
+
+    <pre>
+        <code class="js">
+            // Déclaration "historique" (encore beaucoup utilisée).
+            var maFonction = function() {
+                console.log('Salut');
+            }
+
+            maFonction();
+
+            // Déclaration plus propre.
+            function maFonctionPlusPropre() {
+                console.log('Salut');
+            }
+
+            // Cacher la misère.
+            if (typeof maFonctionPlusPropre === typeof undefined) {
+                function maFonctionPlusPropre() {
+                    console.log('Salut');
+                }
+            }
+
+            // Avec des paramètres.
+            function max(a, b) {
+                return a > b ? a : b;
+            }
+
+            // Appels.
+            $ max(1, 3)
+            >  3
+            $ max(1)
+            >  undefined
+            $ max(1, 2, 3)
+            >  2
+            $ max(1, 2, 3, 5)
+            >  2
+        </code>
+    </pre>
+
 
     <h2>Les boucles</h2>
 
@@ -307,6 +351,126 @@ for (var i = 0, j = 0; i < 42; i ++, j = i ** i) { console.log(j); }
         </code>
     </pre>
 
+    <h3>Moderne</h3>
+
+    For each :
+    <pre>
+        <code class="js">
+            // Traditionel.
+            for (var e of [1, 2, 3]) {
+                console.log(e);
+            }
+
+            // For each avec fonction anonyme.
+            [1, 2, 3].forEach(function(e) {
+                console.log(e);
+            });
+
+            // Arrow functions
+            [1, 2, 3].forEach((e) => { console.log(e); });
+            [1, 2, 3].forEach((e) => console.log(e));
+            [1, 2, 3].forEach(e => console.log(e));
+
+            // Java - lambda expression
+            IntStream.range(1, 4).forEach((int e) -> { System.out.println(e); });
+            IntStream.range(1, 4).forEach((int e) -> System.out.println(e));
+            IntStream.range(1, 4).forEach((e) -> System.out.println(e));
+            IntStream.range(1, 4).forEach(e -> System.out.println(e));
+            IntStream.range(1, 4).forEach(System.out::println);
+        </code>
+    </pre>
+
+    Map :
+    <pre>
+        <code class="js">
+            // Traditional way.
+            var values = [1, 2, 3, 5, 10];
+            var squares = [];
+
+            for (var e of values) {
+                squares.push(e ** 2);
+            }
+
+
+            // Modern way -- bad use.
+            var values = [1, 2, 3, 5, 10];
+            var squares = [];
+
+            values.forEach(e => squares.push(e ** 2));
+
+
+            // Modern way -- correct.
+            var values = [1, 2, 3, 5, 10];
+            var squares = values.map(e => e ** 2);
+
+            values.map(e => { return e ** 2; });
+            values.map(e => return e ** 2); // Crash.
+            values.map(e => e ** 2); // Correct.
+        </code>
+    </pre>
+
+    Filter :
+    <pre>
+        <code class="js">
+            // Traditionel.
+            var values = [1, 2, 3, 4, 5, 6];
+            var even = [];
+
+            for (var e of values) {
+                if (e % 2 == 0) {
+                    even.push(e);
+                }
+            }
+
+            // Arrow fonction.
+            var values = [1, 2, 3, 4, 5, 6];
+            var even = values.filter(e => e % 2 == 0);
+        </code>
+    </pre>
+
+    Reduce (permet de determiner 1 valeur unique à partir des éléments d'un tableau) :
+    <pre>
+        <code class="js">
+            // Traditionel.
+            var values = [1, 2, 3, 6, 2, 213];
+            var sum = 0;
+
+            for (var e of values) {
+                sum += e;
+            }
+
+            console.log(sum);
+
+            // Arrow function.
+            var values = [1, 2, 3, 6, 2, 213];
+            var sum = values.reduce((acc, e) => acc + e);
+            console.log(sum);
+
+            // Sans la variable inutile pour cette syntaxe.
+            var values = [1, 2, 3, 6, 2, 213];
+            console.log(values.reduce((acc, e) => acc + e));
+
+            // Etapes.
+            var sum = values.reduce((acc, e) => acc = acc + e, /* default value */ 0);
+            var sum = values.reduce((acc, e) => acc = acc + e); // Take first item as default.
+            var sum = values.reduce((acc, e) => acc + e);
+        </code>
+    </pre>
+
+    Combinaison :
+    <pre>
+        <code class="js">
+            var values = [1, 2, 4, 1, 46, 2, 'fdezdez', 3, false, 231, '321131'];
+
+            // Ecrit la somme du carré des chiffres du tableau.
+            console.log(values
+                .filter(e => Number.isInteger(e))
+                .map(e => e ** 2)
+                .reduce((acc, e) => acc + e));
+        </code>
+    </pre>
+
+
     <h3>Pendu v2</h3>
 
     <p>
@@ -340,16 +504,19 @@ alert('Congratulation');
 
     <ol>
         <li>Nous allons maintenant accorder 5 chances à l'utilisateur <ol>
-            <li>nous lui donnerons le compte de vies restantes avant chaque essai</li>
-            <li>nous lui annoncerons une défaite si son nombre de vie atteint 0</li>
-        </ol></li>
+                <li>nous lui donnerons le compte de vies restantes avant chaque essai</li>
+                <li>nous lui annoncerons une défaite si son nombre de vie atteint 0</li>
+            </ol>
+        </li>
 
         <li>Nous accepterons désormais deux types de saisies par l'utilisateur
             <ol>
-                <li>des mots : si le mot n'est pas exactement le même que celui à trouver, on perd une vie (aucun indice ne supplémentaire foutnit)</li>
+                <li>des mots : si le mot n'est pas exactement le même que celui à trouver, on perd une vie (aucun
+                    indice ne supplémentaire foutnit)</li>
                 <li>une lettre : on affichera l'état du mot comme ceci "gigant__que_" avec un '_' par lettre manquante
                     <ol>
-                        <li>si une lettre est en doublon, nous afficherons <em>toutes</em> les occurences de cette lettre une fois trouvé</li>
+                        <li>si une lettre est en doublon, nous afficherons <em>toutes</em> les occurences de cette
+                            lettre une fois trouvé</li>
                         <li>si toutes les lettres on étés trouvées, la victoire sera annoncé</li>
                     </ol>
                 </li>
@@ -358,7 +525,8 @@ alert('Congratulation');
 
         <li>les doublons saisies par l'utilisateur ne lui feront plus perdre de vie</li>
 
-        <li>avant chaque essai, nous rappellerons à l'utilisateur les mots et lettres qu'il a déjà proposé (les doublons ne seront pas affichés)</li>
+        <li>avant chaque essai, nous rappellerons à l'utilisateur les mots et lettres qu'il a déjà proposé (les
+            doublons ne seront pas affichés)</li>
     </ol>
 
     <p>
@@ -540,8 +708,12 @@ if (input.length == 1) {
 
     <h2>DOM</h2>
 
-    Le DOM est "l'interpretation chargé en RAM" de la page HTML par le navigateur. Une fois chargé, c'est lui qui fait foie sur le contenu de la page HTML. Utiliser le DOM permet par exemple de :
+    <h3>Bases</h3>
+
+    Le DOM est "l'interpretation chargé en RAM" de la page HTML par le navigateur. Une fois chargé, c'est lui qui fait
+    foie sur le contenu de la page HTML. Utiliser le DOM permet par exemple de :
     <ul>
+        <li>capturer un élément</li>
         <li>suppprimer un élément</li>
         <li>ajouter/supprimer des classes CSS appliquées sur l'élément</li>
         <li>ajouter des éléments</li>
@@ -558,7 +730,35 @@ if (input.length == 1) {
         </code>
     </pre>
 
+    <h3>Capturer</h3>
+
+    <dl>
+        <dt>document.getElementById</dt>
+        <dd>Traditionnel mais il faut encore l'utiliser ; permet de récupérer un élément par son nom d'id</dd>
+
+        <dt>document.getElementsByTagName</dt>
+        <dd>permet de récupérer la liste des éléments pour un nom de balise donné (pre, h2, p, ...) ; plus beaucoup
+            utilisé</dd>
+
+        <dt>document.getElementsByClass</dt>
+        <dd>permet de récupérer la liste des éléments pour un nom de classe CSS ; plus beaucoup utilisé</dd>
+
+        <dt>$('pre > code.js').first()</dt>
+        <dd>possibilité avec JQuery ; l'une des raison du succès initial de JQuery</dd>
+
+        <dt>document.querySelector[All]('pre > code.js')</dt>
+        <dd>Version moderne (privilégier getElementById pour les recherches par id)</dd>
+    </dl>
+
+    <h3>Que faire après la capture ?</h3>
+
+    <a href="https://www.w3schools.com/jsref/dom_obj_all.asp">W3C DOM Element</a>
+
+    Création d'éléments : document.body.appendChild(document.createElement('hr'))
+
+
     <script src="highlighter.js"></script>
     <script src="hidhlighter_process.js"></script>
 </body>
+
 </html>
