@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TP Form</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+
+    <style>
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        table > tfoot,
+        table > thead {
+            background-color: silver;
+        }
+        input[type="number"] {
+            text-align: right;
+        }
+        tfoot {
+            font-weight: 500;
+        }
+        tfoot td {
+            text-align: right;
+            padding: 5px;
+        }
+        tfoot td + td {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TP formulaire</h1>
+
+    <form action="#">
+        <table>
+            <thead>
+                <tr>
+                    <th>Désignation produit</th>
+                    <th>Quantité</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td><input type="text" value="Brosse à dent en bambou plastifié écologique"></td>
+                    <td><input type="number" value="1"></td>
+                    <td><input type="number" value="420"> €</td>
+                </tr>
+                <tr>
+                    <td><input type="text" value="Lait de bambou en poudre"></td>
+                    <td><input type="number" value="1"></td>
+                    <td><input type="number" value="99"> €</td>
+                </tr>
+                <tr>
+                    <td><input type="text" value="Pousses de bambou"></td>
+                    <td><input type="number" value="1"></td>
+                    <td><input type="number" value="2"> €</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td>Total</td>
+                    <td colspan="2">521 €</td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+
+    <p>
+        Le but de ce TP est de gérer le formulaire ci-dessous en :
+        <ol>
+            <li>actualiser la sommes de la facture à chaque modification de quantité</li>
+            <li>valider que la designation du produit est bien renseigné (afficher erreur si ce n'est pas le cas)</li>
+            <li>vérifier que le nom du produit n'est présent qu'une seule fois (unique dans le tableau)</li>
+            <li>ajouter des boutons +/- permettant respectivement d'ajouter et supprimer une ligne de commandes</li>
+            <li>si ce n'est pas déjà le cas, les validations devront fonctionner sur ces nouvelles lignes</li>
+        </ol>
+    </p>
+</body>
+</html>
