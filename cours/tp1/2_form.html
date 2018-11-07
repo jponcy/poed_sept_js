@@ -66,24 +66,6 @@
             </thead>
 
             <tbody>
-                <tr>
-                    <td><input placeholder="Saisir un nom" type="text" value="Brosse à dent en bambou plastifié écologique"></td>
-                    <td><input type="number" min="0" value="1"></td>
-                    <td><input type="number" min="100" value="420"> €</td>
-                    <td><button class="btn-delete">Supprimer</button></td>
-                </tr>
-                <tr>
-                    <td><input placeholder="Saisir un nom" type="text" value="Lait de bambou en poudre"></td>
-                    <td><input type="number" min="0" value="1"></td>
-                    <td><input type="number" min="50" value="99"> €</td>
-                    <td><button class="btn-delete">Supprimer</button></td>
-                </tr>
-                <tr>
-                    <td><input placeholder="Saisir un nom" type="text" value="Pousses de bambou"></td>
-                    <td><input type="number" min="0" value="1"></td>
-                    <td><input type="number" min="1" value="2"> €</td>
-                    <td><button class="btn-delete">Supprimer</button></td>
-                </tr>
             </tbody>
 
             <tfoot>
@@ -99,6 +81,13 @@
     <script>
         function addDeleteAction(deleteButton) {
             deleteButton.addEventListener('click', e => e.target.parentNode.parentNode.remove());
+            deleteButton.addEventListener('click', _ => {
+                // Unrecord field.
+                fields = fields.filter(f => !f.tr.contains(deleteButton));
+
+                // Re-compute total.
+                computeTotalPrice();
+            });
         }
 
         function addDeleteActions(deleteButton) {
@@ -120,31 +109,38 @@
             `;
 
             addDeleteAction(line.querySelector('.btn-delete'));
+            var field = recordField(line);
+
+            // Add other events.
+            initProductNameValidations(field.label);
+            // Add price compute action.
+            field.price.addEventListener('change', _ => computeTotalPrice())
+            field.quantity.addEventListener('change', _ => computeTotalPrice())
+
+            // Refresh total price with new product.
+            computeTotalPrice();
 
             document.querySelector('tbody').appendChild(line);
         }
 
-        function initStruct() {
-            var result = [];
-            var commandLines = document.querySelectorAll('tbody tr');
+        function recordField(tr) {
+            var result = {tr, label: tr.querySelector('input[type="text"]')};
 
-            commandLines.forEach((tr, i) => {
-                result[i] = {tr, label: tr.querySelector('input[type="text"]')};
+            for (var td of tr.children) {
+                var input = td.querySelector('input[type="number"]');
 
-                for (var td of tr.children) {
-                    var input = td.querySelector('input[type="number"]');
-
+                if (input) {
                     if (input) {
-                        if (input) {
-                            if (td.innerHTML.includes('€')) {
-                                result[i]['price'] = input;
-                            } else {
-                                result[i]['quantity'] = input;
-                            }
+                        if (td.innerHTML.includes('€')) {
+                            result['price'] = input;
+                        } else {
+                            result['quantity'] = input;
                         }
                     }
                 }
-            });
+            }
+
+            fields.push(result);
 
             return result;
         }
@@ -213,34 +209,29 @@
             }
         }
 
-        function initProductNameValidations() {
-            document.querySelectorAll('tbody input[type="text"]')
-                    .forEach(text => {
-                        text.addEventListener('change', e => e.target.value = (e.target.value || '').trim());
-                        text.addEventListener('change', e => validNotEmpty(e.target));
-                        text.addEventListener('change', e => validUniqueName(e.target));
+        /*
+         * Adds necessary validations on lbel field.
+         */
+        function initProductNameValidations(text) {
+            text.addEventListener('change', e => e.target.value = (e.target.value || '').trim());
+            text.addEventListener('change', e => validNotEmpty(e.target));
+            text.addEventListener('change', e => validUniqueName(e.target));
 
-                        validNotEmpty(text);
-                        validUniqueName(text);
-                    });
+            validNotEmpty(text);
+            validUniqueName(text);
         }
 
-        var fields = initStruct();
-
-        // Add price compute action.
-        document.querySelectorAll('tbody input[type="number"]')
-                .forEach(element => {
-                    element.addEventListener('change', _ => computeTotalPrice())
-                });
+        var fields = [];
 
         // Add new row action.
         document.getElementById('btn-add-product').addEventListener('click', _ => drawLine());
 
-        // Add delete actions.
-        addDeleteActions();
+        // Add initial data.
+        drawLine('Brosse à dent en bambou plastifié écologique', 1, 420);
+        drawLine('Lait de bambou en poudre', 1, 99);
+        drawLine('Pousses de bambou', 1, 2);
 
         computeTotalPrice();
-        initProductNameValidations();
     </script>
 </body>
 </html>
