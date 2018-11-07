@@ -29,11 +29,29 @@
         tfoot td + td {
             text-align: left;
         }
+        .info {
+            color: orange;
+        }
+        .error {
+            background-color: red;
+        }
     </style>
 </head>
 <body>
 
     <h1>TP formulaire</h1>
+
+    <p>
+        Le but de ce TP est de gérer le formulaire ci-dessous en :
+        <ol>
+            <li>actualiser la sommes de la facture à chaque modification de prix</li>
+            <li>actualiser la sommes de la facture à chaque modification de quantité</li>
+            <li>valider que la designation du produit est bien renseigné (afficher erreur si ce n'est pas le cas)</li>
+            <li>vérifier que le nom du produit n'est présent qu'une seule fois (unique dans le tableau)</li>
+            <li>ajouter des boutons +/- permettant respectivement d'ajouter et supprimer une ligne de commandes</li>
+            <li>si ce n'est pas déjà le cas, les validations devront fonctionner sur ces nouvelles lignes</li>
+        </ol>
+    </p>
 
     <form action="#">
         <table>
@@ -47,40 +65,142 @@
 
             <tbody>
                 <tr>
-                    <td><input type="text" value="Brosse à dent en bambou plastifié écologique"></td>
-                    <td><input type="number" value="1"></td>
-                    <td><input type="number" value="420"> €</td>
+                    <td><input placeholder="Saisir un nom" type="text" value="Brosse à dent en bambou plastifié écologique"></td>
+                    <td><input type="number" min="0" value="1"></td>
+                    <td><input type="number" min="100" value="420"> €</td>
                 </tr>
                 <tr>
-                    <td><input type="text" value="Lait de bambou en poudre"></td>
-                    <td><input type="number" value="1"></td>
-                    <td><input type="number" value="99"> €</td>
+                    <td><input placeholder="Saisir un nom" type="text" value="Lait de bambou en poudre"></td>
+                    <td><input type="number" min="0" value="1"></td>
+                    <td><input type="number" min="50" value="99"> €</td>
                 </tr>
                 <tr>
-                    <td><input type="text" value="Pousses de bambou"></td>
-                    <td><input type="number" value="1"></td>
-                    <td><input type="number" value="2"> €</td>
+                    <td><input placeholder="Saisir un nom" type="text" value="Pousses de bambou"></td>
+                    <td><input type="number" min="0" value="1"></td>
+                    <td><input type="number" min="1" value="2"> €</td>
                 </tr>
             </tbody>
 
             <tfoot>
                 <tr>
                     <td>Total</td>
-                    <td colspan="2">521 €</td>
+                    <td colspan="2"><span class="info">Calcul en cours</span></td>
                 </tr>
             </tfoot>
         </table>
     </form>
 
-    <p>
-        Le but de ce TP est de gérer le formulaire ci-dessous en :
-        <ol>
-            <li>actualiser la sommes de la facture à chaque modification de quantité</li>
-            <li>valider que la designation du produit est bien renseigné (afficher erreur si ce n'est pas le cas)</li>
-            <li>vérifier que le nom du produit n'est présent qu'une seule fois (unique dans le tableau)</li>
-            <li>ajouter des boutons +/- permettant respectivement d'ajouter et supprimer une ligne de commandes</li>
-            <li>si ce n'est pas déjà le cas, les validations devront fonctionner sur ces nouvelles lignes</li>
-        </ol>
-    </p>
+
+    <script>
+        function initStruct() {
+            var result = [];
+            var commandLines = document.querySelectorAll('tbody tr');
+
+            commandLines.forEach((tr, i) => {
+                result[i] = {tr, label: tr.querySelector('input[type="text"]')};
+
+                for (var td of tr.children) {
+                    var input = td.querySelector('input[type="number"]');
+
+                    if (input) {
+                        if (input) {
+                            if (td.innerHTML.includes('€')) {
+                                result[i]['price'] = input;
+                            } else {
+                                result[i]['quantity'] = input;
+                            }
+                        }
+                    }
+                }
+            });
+
+            return result;
+        }
+
+        function computeTotalPrice() {
+            var sum = 0;
+
+            fields.forEach(row => {
+                var price = parseInt(row.price.value);
+                var quantity = parseInt(row.quantity.value);
+
+                if (quantity && price) {
+                    sum += quantity * price;
+                    row.tr.className = '';
+                } else {
+                    console.error('Il nous  manque l\'une des données pour calculer le produit sur l\'élément suivant : ', row);
+                    row.tr.className = 'error';
+                }
+            }); // ! sum compute.
+
+            document.querySelector('tfoot [colspan]').innerText = `${sum} €`;
+        }
+
+        function validUniqueName(elt) {
+            var name = elt.value.trim();
+
+            if (!name) return;
+
+            var duplications = fields
+                .map(row => row.label)
+                .filter(label => label != elt)
+                .filter(label => label.value.trim() === name);
+
+            if (duplications.length > 0) {
+                duplications.forEach(label => {
+                    [label, elt].forEach(s => {
+                        s.className = 'error';
+                        s.dataset.origin = name;
+                    });
+                });
+                /*
+                 * TODO: Corriger le cas specifique
+                 * (quand on enleve une duplication en en creant une nouvelle, toutes les lignes sont selectionnees) !
+                 */
+            } else if (elt.dataset.origin) {
+                duplications = fields.filter(f => f.label.value.trim() == elt.dataset.origin);
+
+                elt.className = '';
+                elt.dataset.origin = null;
+
+                if (duplications.length === 1) {
+                    duplications[0].label.className = '';
+                    duplications[0].label.dataset.origin = null;
+                }
+            }
+
+        }
+
+        function validNotEmpty(htmlElement) {
+            if (htmlElement.value) {
+                htmlElement.className = '';
+            // if (htmlElement.value == true) {
+            // if (htmlElement.value != null && htmlElement.value != '') {
+            } else {
+                htmlElement.className = 'error';
+            }
+        }
+
+        function initProductNameValidations() {
+            document.querySelectorAll('tbody input[type="text"]')
+                    .forEach(text => {
+                        text.addEventListener('change', e => validNotEmpty(e.target));
+                        text.addEventListener('change', e => validUniqueName(e.target));
+
+                        validNotEmpty(text);
+                        validUniqueName(text);
+                    });
+        }
+
+        var fields = initStruct();
+
+        document.querySelectorAll('tbody input[type="number"]')
+                .forEach(element => {
+                    element.addEventListener('change', _ => computeTotalPrice())
+                });
+
+        computeTotalPrice();
+        initProductNameValidations();
+    </script>
 </body>
 </html>
