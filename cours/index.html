@@ -759,7 +759,115 @@ if (input.length == 1) {
     <h1>Consomation d'API</h1>
 
     <h2>Qu'est-ce qu'une API</h2>
+
+    Une API (Application Programming Interface) consiste en un code qui permet à deux programmes logiciels de communiquer.
+
     <h2>Comment faire ? (natif)</h2>
+
+    Utilisation de la fonction fetch.
+
+    Exemple de base :
+    <pre>
+        <code class="js">
+fetch('https://api.jikan.moe/v3/manga/1')
+    // Que faire quand on recupere bien le resultat ? => interpreter le JSON (dans ce cas la).
+    .then(response => response.json())
+
+    // Que faire du contenu interprete ?
+    .then(json => console.log('The response content was: ', json))
+
+    // Traitement erreur.
+    .catch(error => console.error('Error', error))
+        </code>
+    </pre>
+
+    Exemple plus complexe :
+    <pre>
+        <code class="js">
+(async () => {
+    const rawResponse = await fetch('https://httpbin.org/post', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({a: 1, b: 'Textual content'})
+    });
+    const content = await rawResponse.json();
+
+    console.log(content);
+
+    // ==========
+
+    fetch('https://httpbin.org/post', {
+        method: 'POST',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({a: 1, b: 'Textual content'})
+    })
+        .then(response => response.json())
+        .then(content => console.log(content));
+})();
+        </code>
+    </pre>
+
+    <h2>REST/autre</h2>
+
+    <h3>SOAP</h3>
+
+    Précurseur, de moins en moins utilisé.
+
+    <h3>REST</h3>
+
+    JSON:
+    <ul>
+        <li>chiffres : entier / réel (1 ; 2.1)</li>
+        <li>booléen : false|true</li>
+        <li>string : "valeur" (double normalisées)</li>
+        <li>tableau : [1, 2, 3]</li>
+        <li>objet : {<key>: <value>}</li>
+    </ul>
+
+    Exemple JSON:
+    <pre>
+        <code class="js">
+            // En JS :
+            {
+                string: 'string',
+                entiers: [1, 2, 3],
+                sousObject: {
+                    values: [1, 2, 3],
+                    finished: false
+                },
+                users: [
+                    {name: 'Jonathan', job: 'teacher'},
+                    {name: 'Romain', job: 'student'},
+                    {name: 'Maxime', job: 'student'},
+                    {name: 'Camille', job: 'student'},
+                    {name: 'Antoine', job: 'teacher'}
+                ]
+            }
+
+            // JSON normalisé REST :
+            {
+                "string": "string",
+                "entiers": [1, 2, 3],
+                "sousObject": {
+                    "values": [1, 2, 3],
+                    "finished": false
+                },
+                "users": [
+                    {"name": "Jonathan", "job": "teacher"},
+                    {"name": "Romain", "job": "student"},
+                    {"name": "Maxime", "job": "student"},
+                    {"name": "Camille", "job": "student"},
+                    {"name": "Antoine", "job": "teacher"}
+                ]
+            }
+        </code>
+    </pre>
 
 
     <h1>JQuery</h1>
