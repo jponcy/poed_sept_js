@@ -54,12 +54,14 @@
     </p>
 
     <form action="#">
+        <button id="btn-add-product">Ajouter un produit</button>
         <table>
             <thead>
                 <tr>
                     <th>Désignation produit</th>
                     <th>Quantité</th>
                     <th>Prix</th>
+                    <th>Action</th>
                 </tr>
             </thead>
 
@@ -68,23 +70,26 @@
                     <td><input placeholder="Saisir un nom" type="text" value="Brosse à dent en bambou plastifié écologique"></td>
                     <td><input type="number" min="0" value="1"></td>
                     <td><input type="number" min="100" value="420"> €</td>
+                    <td><button class="btn-delete">Supprimer</button></td>
                 </tr>
                 <tr>
                     <td><input placeholder="Saisir un nom" type="text" value="Lait de bambou en poudre"></td>
                     <td><input type="number" min="0" value="1"></td>
                     <td><input type="number" min="50" value="99"> €</td>
+                    <td><button class="btn-delete">Supprimer</button></td>
                 </tr>
                 <tr>
                     <td><input placeholder="Saisir un nom" type="text" value="Pousses de bambou"></td>
                     <td><input type="number" min="0" value="1"></td>
                     <td><input type="number" min="1" value="2"> €</td>
+                    <td><button class="btn-delete">Supprimer</button></td>
                 </tr>
             </tbody>
 
             <tfoot>
                 <tr>
                     <td>Total</td>
-                    <td colspan="2"><span class="info">Calcul en cours</span></td>
+                    <td colspan="3"><span class="info">Calcul en cours</span></td>
                 </tr>
             </tfoot>
         </table>
@@ -92,6 +97,33 @@
 
 
     <script>
+        function addDeleteAction(deleteButton) {
+            deleteButton.addEventListener('click', e => e.target.parentNode.parentNode.remove());
+        }
+
+        function addDeleteActions(deleteButton) {
+            fields.forEach(f => {
+                addDeleteAction(f.tr.querySelector('.btn-delete'));
+            });
+        }
+
+        function drawLine(text, quantity, price) {
+            var line = document.createElement('tr');
+
+            price = price || 100;
+
+            line.innerHTML = `
+                <td><input placeholder="Saisir un nom" type="text" value="${text || 'unknown'}"></td>
+                <td><input type="number" min="0" value="${quantity || 1}"></td>
+                <td><input type="number" min="${Math.floor(price/3)}" value="${price}"> €</td>
+                <td><button class="btn-delete">Supprimer</button></td>
+            `;
+
+            addDeleteAction(line.querySelector('.btn-delete'));
+
+            document.querySelector('tbody').appendChild(line);
+        }
+
         function initStruct() {
             var result = [];
             var commandLines = document.querySelectorAll('tbody tr');
@@ -195,10 +227,17 @@
 
         var fields = initStruct();
 
+        // Add price compute action.
         document.querySelectorAll('tbody input[type="number"]')
                 .forEach(element => {
                     element.addEventListener('change', _ => computeTotalPrice())
                 });
+
+        // Add new row action.
+        document.getElementById('btn-add-product').addEventListener('click', _ => drawLine());
+
+        // Add delete actions.
+        addDeleteActions();
 
         computeTotalPrice();
         initProductNameValidations();
