@@ -10,7 +10,7 @@
 <body>
     <h1>Notion objet avancé (ES5)</h1>
 
-    <h2>Rappel</h2>
+    <h2>Base</h2>
 
     <ul>
         <li>représenté par {} en JSON</li>
@@ -44,24 +44,24 @@
 
         <code class="js">
             // Private.
-            var o2 = function () {
+            $ var o2 = function () {
                 var i = 3;
                 var fn = function() {
                     console.log('Salut');
                 }
             }
-            undefined
-            o2.i
-            undefined
-            o2.fn
-            undefined
-            o2.fn()
-            TypeError: o2.fn is not a function [En savoir plus]
-            new o2
-            Object { fn: o2/this.fn() }
+            < undefined
+            $ o2.i
+            < undefined
+            $ o2.fn
+            < undefined
+            $ o2.fn()
+            < TypeError: o2.fn is not a function [En savoir plus]
+            $ new o2
+            < Object { fn: o2/this.fn() }
 
-            new function() {}
-            Object {  }
+            $ new function() {}
+            < Object {  }
 
             $ o2 = function () {
                 var msg = 'Salut';
@@ -148,13 +148,112 @@
 
     <p>Dans nos exemples précédent, on a déjà un prototype qui est la résultante du constructeur. Ce prototype est modifiable. Le prototype est récupérable avec ".prototype"</p>
 
+    <pre>
+        <code class="js">
+            $ var C = function () { this.hi = _ => console.log('Bonjour') }
+            < undefined
+            $ (new C).prototype
+            < undefined
+            $ C.prototype
+            < Object { , 1 de plus… }
+            $ C.prototype.i = 4
+            < 4
+            $ C.prototype
+            < Object { i: 4, 1 de plus… }
+            $ var c = new C
+            < undefined
+            $ c
+            < Object { hi: C/this.hi() }
+            $ c.i
+            < 4
+            $ c.j
+            < undefined
+            $ C.prototype.j = 2
+            < 2
+            $ c
+            < Object { hi: C/this.hi() }
+            $ c.i
+            < 4
+            $ c.j
+            < 2
+        </code>
+    </pre>
+
     <h2>Héritage</h2>
 
+    Plusieurs techniques existent, nous n'en verrons qu'une.
 
+    <pre>
+        <code class="js">
+            $ var Human = function () {
+                this.marcher = function () {
+                    console.log('Je suis un humain, je marche') ;
+                }
+            };
+            < undefined
+            $ var Nicolas = function () {
+                this.parler = function () {
+                    console.log('Je cherche sur Google : "lmgtfy menu"');
+                }
+            };
+            < undefined
+            $ Nicolas.prototype = new Human;
+        </code>
+    </pre>
+
+    <p>
+        Avantage de cette méthode : Facile.
+        <br>
+        Inconvéniant : On ne récupère que les functions/attributs du constructeur parent (pas les éléments ajouté après).
+    </p>
+
+    <h2>Namespace</h2>
+
+    <pre>
+        <code class="js">
+// Naive way.
+$ var ns = {
+    CharacterClass: function () {
+        this.move = function () {
+            console.log(`Je me déplace à ${this.speed} km/h`);
+        }
+    },
+    Gladiator: function () {
+        this.speed = 54321;
+    },
+    Wizard: function () {
+        /* Due to magical books. */
+        this.speed = 2;
+    }
+};
+
+// --- OR ---.
+
+// Common way.
+$ var ns = {};
+
+$ ns['CharacterClass'] = function () {
+    this.move = function () {
+        console.log(`Je me déplace à ${this.speed} km/h`);
+    }
+};
+
+$ ns['Gladiator'] = function () {
+    this.speed = 54321;
+};
+$ ns['Wizard'] = function () {
+    /* Due to magical books. */
+    this.speed = 2;
+};
+
+$ ns.Wizard.prototype = new ns.CharacterClass;
+$ ns.Gladiator.prototype = new ns.CharacterClass;
+        </code>
+    </pre>
 
     <script src="skeleton/base.js"></script>
 
     <script src="highlighter.js"></script>
     <script src="hidhlighter_process.js"></script>
-</selecteur-css-3>
+</body>
 </html>

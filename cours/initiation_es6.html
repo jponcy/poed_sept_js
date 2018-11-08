@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ES6</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
+<body>
+    <h1>ES6 (2015)</h1>
+
+    <p>
+        Pas encore suporté à 100% par les navigateurs. On utilise souvent la transpilation pour récupérer un code ES5 plus fonctionnel (portable).
+
+        Principale différences : <ul>
+            <li>ajout du mot clef class (Java like)</li>
+            <li>ajout des visibilités (public, protected, private)</li>
+            <li>ajout de constructeur de classe (constructor)</li>
+            <li>héritage (Java like)</li>
+            <li>ajout let (à la place de var ; plus de soucis de post déclarations)</li>
+            <li>ajout de const</li>
+            <li>meilleur support des arrow functions</li>
+            <li>ajout getter/setter (get/set ; exemple : get value() { return this.instanceValue; } // pourra être appelé avec this.value;</li>
+            <li>ajout système paramètre par défaut</li>
+            <li>ajout paramètre infini (myfn(... values) { values.forEach(console.log) } // pourra être appelé avec this.myfn(1, 2, 3)</li>
+            <li>destructuration</li>
+            <li>générateur (yield)</li>
+        </ul>
+
+        <pre>
+            <code class="js">
+class Human {
+    speed = 3;
+
+    move() {
+        console.log(`Je me déplace à ${this.speed} km/h`);
+    }
+}
+
+class Gladiator extends Human {
+    speed = 54321;
+}
+            </code>
+        </pre>
+    </p>
+
+    <script src="skeleton/base.js"></script>
+
+    <script src="highlighter.js"></script>
+    <script src="hidhlighter_process.js"></script>
+</body>
+</html>
