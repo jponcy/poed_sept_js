@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Notion objet avancé (ES5)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
+<body>
+    <h1>Notion objet avancé (ES5)</h1>
+
+    <h2>Rappel</h2>
+
+    <ul>
+        <li>représenté par {} en JSON</li>
+        <li>déclarable avec {} en JS</li>
+        <li>déclarable avec function en JS (permet : new, private, static)</li>
+        <li></li>
+    </ul>
+
+    <pre>
+        <code class="js">
+            var o1 = {toto: 4}
+            undefined
+            o1
+            Object { toto: 4 }
+            o1.toto
+            4
+            o1['nouveau'] = 3;
+            3
+            o1.nouveau
+            3
+            o1['fn'] = function () { console.log('Salut'); }
+            function o1.fn()
+            o1.fn
+            function o1.fn()
+            o1.fn()
+            Salut
+            undefined
+            new o1
+            TypeError: o1 is not a constructor [En savoir plus]
+        </code>
+
+        <code class="js">
+            // Private.
+            var o2 = function () {
+                var i = 3;
+                var fn = function() {
+                    console.log('Salut');
+                }
+            }
+            undefined
+            o2.i
+            undefined
+            o2.fn
+            undefined
+            o2.fn()
+            TypeError: o2.fn is not a function [En savoir plus]
+            new o2
+            Object { fn: o2/this.fn() }
+
+            new function() {}
+            Object {  }
+
+            $ o2 = function () {
+                var msg = 'Salut';
+
+                this.fn = function() {
+                    console.log('Salut');
+                }
+            }
+            > function o2()
+            $ o2.fn()
+            > TypeError: o2.fn is not a function [En savoir plus]
+            $ oo = new o2
+            > Object { fn: o2/this.fn() }
+            $ oo.fn()
+            > Salut
+            > undefined
+        </code>
+    </pre>
+
+    <p>
+        Dans les exemples ci-dessus, o2 a le même but qu'une classe en java, mais n'en est pas une. En JS les classes n'existent pas. C'est une language orienté objet ppar prototype.
+        On serait du coup tenté de penser que o2 est un prototype, mais non. Il s'agit en fait d'un constructeur.
+    </p>
+
+    <p>
+        En JS ES5, les constructeurs sont une notion independante représenté par une fonction. La spécificité du JS, c'est que le constructeur contient les membres privés et peut contenir des mmembres public. Il contient une bonne partie de la définition.
+    </p>
+
+    <pre>
+        <code class="js">
+            $ o2 = function () {
+                var msg = 'Aurevoir';
+                this.msg = 'Bonjour';
+
+                this.hi = function() {
+                    console.log(this.msg);
+                    return this;
+                }
+
+                this.bye = function () {
+                    console.log(msg);
+                    return this;
+                }
+            };
+            $ (new o2).hi().bye()
+            < Bonjour
+            < Aurevoir
+        </code>
+    </pre>
+
+    <p>
+        On peut en conclure qu'en JS, la signature est composé par :
+        <ul>
+            <li>le nom de la fonction</li>
+            <li>la visibilité (dans le cas d'un objet résultant d'un constructeur)</li>
+        </ul>
+
+        Les types ou le nombre de paramètres ne font pas parti de la signature.
+        <br>
+        On peut aussi dire que les membres privés (locaux) sont déclarés avec var et utilisé sans aucun préfixe. Les membres public sont déclarés avec this. et seront utilisé avec this. (le this sera à remplacer par le nom de la variable lors d'une utilisation extérieur).
+    </p>
+
+    <h2>Paramètre du constructeur</h2>
+
+    <p>
+        Le constructeur peut prendre des paramètres.
+
+        <pre>
+            <code class="js">
+                var MonConstructeur = function (maValeurEnParametre) {
+                    this.print = function() {
+                        alert(maValeurEnParametre);
+                    }
+                };
+            </code>
+        </pre>
+    </p>
+
+    <h2>Fil rouge</h2>
+
+    Re-organiser le pendu avec des functions/constructeurs (possible avec la version sans IHM).
+
+    <h2>Prototype</h2>
+
+    <p>Dans nos exemples précédent, on a déjà un prototype qui est la résultante du constructeur. Ce prototype est modifiable. Le prototype est récupérable avec ".prototype"</p>
+
+    <h2>Héritage</h2>
+
+
+
+    <script src="skeleton/base.js"></script>
+
+    <script src="highlighter.js"></script>
+    <script src="hidhlighter_process.js"></script>
+</selecteur-css-3>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Initiation à JQuery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
+<body>
+    <h1>JQuery</h1>
+
+    Il s'agit d'une librairie externe. Il faut donc l'ajouter si l'on veut pouvoir l'utiliser. Les méthodes principales pour ajouter JQuery sont :
+    <ul>
+        <li>télécharger la librairie (css + JS) et les importer manuellement</li>
+        <li>utiliser un CDN</li>
+        <li>utiliser un géstionnaire de dépendances (npm, yarn, ... ; sera vu en Angular)</li>
+    </ul>
+
+    <h2>Différence CDN/local</h2>
+
+    En local, on ajoute les sources dans notre code (téléchargement manuel). CDN (Content Delivery Network), en gros le code est disponible sur un serveur d'où on le télécharge (balise script, link). La suptilité du CDN est qu'il est répliqué avec de noombreuses instances (un peu partout dans le monde).
+
+    <h2>Installation</h2>
+
+    <h3>Local</h3>
+
+    <ul>
+        <li>on cherche/trouve la librairie avec la version souhaité</li>
+        <li>on télécharge les fichiers (CSS, JS, ...)</li>
+        <li>on place ces fichiers dans le projet (arborescence fichier)</li>
+        <li>on mets les liens manuellement (link, script)</li>
+    </ul>
+
+    <h3>CDN</h3>
+
+    <ul>
+        <li>on cherche/trouve le lien CDN pour la librairie et version souhaité</li>
+        <li>on mets balise (link/script) avec ce lien</li>
+    </ul>
+
+    <h2>Début</h2>
+
+    <pre>
+        <code class="js">
+            // On peut appeler toutes les fonctions de jQuery a partir de l'objet:
+            jQuery
+
+            // On a un alias (raccourci):
+            $
+
+            // Recuperation d'un element du DOM
+            $('<selecteur-css-3>')
+            $('body')
+
+            // Creation d'une nouvelle balise
+            $('<a>')
+            $('body').prepend($('<a>').addClass('dedez').attr('href', 'http://www.google.fr'))
+
+            // Encapsulation d'un objet JS en jQuery (permet de modifier les methodes a utiliser)
+            $(document)
+
+            // Gestion d'evenement.
+            $(document).on('click', _ => alert('Salut, vois comment je suis pas du tout relou'))
+        </code>
+    </pre>
+
+    <a href="https://sutterlity.gitbooks.io/apprendre-jquery/content/manipuler_le_dom/index.html">Voir plus</a>.
+
+    <h2>API</h2>
+
+    <pre>
+        <code class="js">
+            $.ajax('https://api.jikan.moe/v3/manga/1')
+                .success(r => console.log('Success', r))
+                .fail(e => console.log('Fail', e))
+                .error(e => console.error('Error', e))
+        </code>
+    </pre>
+
+    <h2>JQuery-ui</h2>
+
+    Documentation : <a href="https://jqueryui.com/draggable/">https://jqueryui.com/draggable/</a>.
+
+
+    <script src="skeleton/base.js"></script>
+
+    <script
+        src="https://code.jquery.com/jquery-2.2.4.js"
+        integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
+
+    <script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        crossorigin="anonymous"></script>
+
+    <script src="highlighter.js"></script>
+    <script src="hidhlighter_process.js"></script>
+</selecteur-css-3>
+</html>
